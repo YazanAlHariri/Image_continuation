@@ -1,5 +1,6 @@
 from PIL import Image
 from NeuralNet import Network
+from random import choice
 
 
 def get_data_from_image(img: Image.Image, x_range=(0, 1), y_range=(0, 1)):
@@ -26,13 +27,12 @@ class Painter(Network):
         return img
 
     def train(self, data, intensity=200):
-        for _ in range(intensity):
-            for inp, target in data:
-                self.backpropagation(inp, target)
+        for _ in range(10 * intensity):
+            self.backpropagation(*choice(data))
 
 
 def main():
-    with Image.open("./sample.png").convert(mode="RGB") as img:
+    with Image.open("./sample1.png").convert(mode="RGB") as img:
         data = get_data_from_image(img, (0.2, 0.8), (0.2, 0.8))
         print(len(data), data)
         painter = Painter(5, 30)
